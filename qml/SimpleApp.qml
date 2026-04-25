@@ -8,15 +8,41 @@ ApplicationWindow {
     width: 800
     height: 600
     visible: true
-    title: "Video Chat Roulette"
+    title: "Video Chat Roulette - " + (authManager.serverUrl.includes("localhost") ? "Dev" : "Prod")
     
     // Dark theme
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     
-    // Set server URL for remote connection
+    // Auto-detect server URL (local vs external)
     Component.onCompleted: {
-        authManager.setServerUrl("http://84.233.195.37:8080")
+        // Try to detect if running locally
+        checkServerAvailability()
+    }
+    
+    function checkServerAvailability() {
+        console.log("🔍 Checking server availability...")
+        
+        // Try localhost first (development)
+        var xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log("🔧 Development mode: localhost server available")
+                    authManager.setServerUrl("http://localhost:8080")
+                } else {
+                    console.log("🌐 Production mode: using external server")
+                    authManager.setServerUrl("http://84.233.195.37:8080")
+                }
+            }
+        }
+        xhr.timeout = 3000 // 3 seconds timeout
+        xhr.ontimeout = function() {
+            console.log("🌐 Production mode: localhost timeout, using external server")
+            authManager.setServerUrl("http://84.233.195.37:8080")
+        }
+        xhr.open("GET", "http://localhost:8080", true)
+        xhr.send()
     }
     
     property bool showAuth: true
@@ -319,7 +345,8 @@ ApplicationWindow {
                                 
                                 onClicked: {
                                     // Connect to server and start video chat
-                                    videoChatApp.connectToServer("ws://84.233.195.37:8080/ws")
+                                    var wsUrl = authManager.serverUrl.replace("http://", "ws://") + "/ws"
+                                    videoChatApp.connectToServer(wsUrl)
                                     videoChatApp.startChat()
                                     showAuth = false
                                     showVideoChat = true
@@ -367,7 +394,8 @@ ApplicationWindow {
                                 
                                 onClicked: {
                                     // Connect to server and start text chat
-                                    videoChatApp.connectToServer("ws://localhost:8080/ws")
+                                    var wsUrl = authManager.serverUrl.replace("http://", "ws://") + "/ws"
+                                    videoChatApp.connectToServer(wsUrl)
                                     videoChatApp.startChat()
                                     showAuth = false
                                     showVideoChat = false

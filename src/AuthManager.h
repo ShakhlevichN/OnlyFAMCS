@@ -14,6 +14,7 @@ class AuthManager : public QObject
     Q_PROPERTY(bool isLoggedIn READ isLoggedIn NOTIFY loginStatusChanged)
     Q_PROPERTY(QString token READ token NOTIFY tokenChanged)
     Q_PROPERTY(QJsonObject currentUser READ currentUser NOTIFY userChanged)
+    Q_PROPERTY(QString serverUrl READ serverUrl NOTIFY serverUrlChanged)
 
 public:
     explicit AuthManager(QObject *parent = nullptr);
@@ -42,6 +43,7 @@ public:
                                  const QString &gender, 
                                  const QString &interests);
     Q_INVOKABLE void setServerUrl(const QString &url);
+    QString serverUrl() const;
 
 signals:
     void loginStatusChanged();
@@ -52,6 +54,7 @@ signals:
     void loginSuccess();
     void loginError(const QString &error);
     void profileUpdated();
+    void serverUrlChanged();
     void profileUpdateError(const QString &error);
 
 private slots:

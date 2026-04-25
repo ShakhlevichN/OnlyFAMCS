@@ -306,4 +306,7 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
+    print("🚀 Starting Video Chat Roulette Server...")
+    print(f"📡 Server will be available on: http://0.0.0.0:8080")
+    print(f"🌐 Local users connect to: http://localhost:8080")
     uvicorn.run(app, host="0.0.0.0", port=8080)

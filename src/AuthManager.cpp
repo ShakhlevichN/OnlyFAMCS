@@ -164,6 +164,12 @@ void AuthManager::updateProfile(const QString &displayName,
 void AuthManager::setServerUrl(const QString &url)
 {
     m_serverUrl = url;
+    emit serverUrlChanged();
+}
+
+QString AuthManager::serverUrl() const
+{
+    return m_serverUrl;
 }
 
 void AuthManager::onRegisterResponse()

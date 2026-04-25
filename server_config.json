@@ -1,0 +1,10 @@
+{
+    "development": {
+        "server_url": "http://localhost:8080",
+        "ws_url": "ws://localhost:8080/ws"
+    },
+    "production": {
+        "server_url": "http://84.233.195.37:8080",
+        "ws_url": "ws://84.233.195.37:8080/ws"
+    }
+}
