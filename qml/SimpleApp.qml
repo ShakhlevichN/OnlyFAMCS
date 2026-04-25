@@ -14,6 +14,11 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     
+    // Set server URL for remote connection
+    Component.onCompleted: {
+        authManager.setServerUrl("http://84.233.195.37:8080")
+    }
+    
     property bool showAuth: true
     property bool isRegisterMode: false
     property bool showVideoChat: false
@@ -314,7 +319,7 @@ ApplicationWindow {
                                 
                                 onClicked: {
                                     // Connect to server and start video chat
-                                    videoChatApp.connectToServer("ws://localhost:8080/ws")
+                                    videoChatApp.connectToServer("ws://84.233.195.37:8080/ws")
                                     videoChatApp.startChat()
                                     showAuth = false
                                     showVideoChat = true

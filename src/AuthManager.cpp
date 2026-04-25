@@ -161,6 +161,11 @@ void AuthManager::updateProfile(const QString &displayName,
             this, &AuthManager::onNetworkError);
 }
 
+void AuthManager::setServerUrl(const QString &url)
+{
+    m_serverUrl = url;
+}
+
 void AuthManager::onRegisterResponse()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());

@@ -41,6 +41,7 @@ public:
                                  int age, 
                                  const QString &gender, 
                                  const QString &interests);
+    Q_INVOKABLE void setServerUrl(const QString &url);
 
 signals:
     void loginStatusChanged();

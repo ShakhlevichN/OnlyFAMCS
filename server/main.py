@@ -238,7 +238,10 @@ async def update_profile(profile: UserProfile, current_user: User = Depends(get_
     }
 
 @app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket, token: str = None):
+async def websocket_endpoint(websocket: WebSocket):
+    # Extract token from query parameters
+    query_params = websocket.query_params
+    token = query_params.get("token")
 
     if not token:
         await websocket.close(code=4001, reason="No token provided")
